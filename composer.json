@@ -1,7 +1,7 @@
 {
     "name": "codexsoft/operations",
     "license": "MIT",
-    "description": "A tool provides building blocks for structuring domain business-logic",
+    "description": "A tool provides building blocks for structuring domain business-logic via operations",
     "require": {
         "php": "^7.2.0",
         "ext-json": "*",

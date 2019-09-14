@@ -16,7 +16,7 @@ use function CodexSoft\Code\str;
 class SelfCheckCommand extends Command
 {
 
-    use \CodexSoft\OperationsSystem\Traits\DomainSchemaAwareTrait;
+    use \CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
 
     private $uuidVar = Operation::_ID_VAR_NAME;
 
@@ -36,8 +36,8 @@ class SelfCheckCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->autofixIds = (bool) $input->getOption('autofix');
-        $operationsPath = $this->domainSchema->getPathToOperations();
-        $operationsNamespace = $this->domainSchema->getNamespaceOperations();
+        $operationsPath = $this->operationsSystemSchema->getPathToOperations();
+        $operationsNamespace = $this->operationsSystemSchema->getNamespaceOperations();
         $this->checkOperations($operationsPath, $operationsNamespace, $output);
     }
 
@@ -131,8 +131,9 @@ class SelfCheckCommand extends Command
         foreach ($code as $line) {
             $output[] = $line;
             if ($classLineFound === 1) {
-                $uuid = Uuid::uuid4();
-                $output[] = TAB."protected const $this->uuidVar = '$uuid';\n";
+                $uuid = Uuid::uuid4()->toString();
+                //$uuid->toString()
+                $output[] = TAB."protected const \$this->uuidVar = '$uuid';\n";
                 $classLineFound = 2;
             }
             if (($classLineFound === 0) && (str($line)->startsWith('abstract class ') || str($line)->startsWith('final class ') || str($line)->startsWith('class '))) {

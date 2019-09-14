@@ -3,7 +3,7 @@
 namespace CodexSoft\OperationsSystem\Command;
 
 use CodexSoft\Code\Helpers\Classes;
-use const CodexSoft\Code\TAB;
+use CodexSoft\Code\Shortcuts;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,11 +13,12 @@ use Symfony\Component\Filesystem\Filesystem;
 use CodexSoft\OperationsSystem\Operation;
 use CodexSoft\OperationsSystem\Exception\OperationException;
 use function CodexSoft\Code\str;
+use const CodexSoft\Code\TAB;
 
 class GenerateOperationCommand extends Command
 {
 
-    use \CodexSoft\OperationsSystem\Traits\DomainSchemaAwareTrait;
+    use \CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
 
     protected function configure()
     {
@@ -32,8 +33,9 @@ class GenerateOperationCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        Shortcuts::register();
         $operationName = $input->getArgument('name');
-        $operationsPath = $this->domainSchema->getPathToOperations();
+        $operationsPath = $this->operationsSystemSchema->getPathToOperations();
         $output->writeln('Operations path: '.$operationsPath);
         $operationName = (string) str($operationName)->replace('/','\\')->replace('.','\\');
         $operationNameParts = explode('\\',$operationName);
@@ -47,7 +49,7 @@ class GenerateOperationCommand extends Command
         \array_pop($operationNamespaceParts);
         $operationNamespace = implode('\\',$operationNamespaceParts);
 
-        $operationsNamespace = $this->domainSchema->getNamespaceOperations();
+        $operationsNamespace = $this->operationsSystemSchema->getNamespaceOperations();
         if ($operationNamespace) {
             $operationsNamespace .= '\\'; // tood: why?
         }
