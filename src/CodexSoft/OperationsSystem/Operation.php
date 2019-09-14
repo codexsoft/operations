@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dx
- * Date: 19.08.17
- * Time: 4:20
- */
 
 namespace CodexSoft\OperationsSystem;
 
@@ -211,7 +205,6 @@ abstract class Operation implements LoggerAwareInterface
     private function _getOperationsProcessor(): OperationsProcessor
     {
         return $this->operationsProcessor;
-        //return Context::get(OperationsProcessor::class);
     }
 
     /**

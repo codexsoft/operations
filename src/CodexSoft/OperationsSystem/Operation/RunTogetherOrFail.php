@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dmitriy V Kozubskiy (kozubsky@inbox.ru, @Kozubskiy)
- * Date: 06.07.18
- * Time: 20:12
- */
 
 namespace CodexSoft\OperationsSystem\Operation;
 

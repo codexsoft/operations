@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dx
- * Date: 19.09.17
- * Time: 3:33
- */
 
 namespace CodexSoft\OperationsSystem\Command;
 

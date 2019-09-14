@@ -1,14 +1,12 @@
 <?php
 
-
 namespace CodexSoft\OperationsSystem;
 
-
 use CodexSoft\Code\Helpers\Classes;
-use CodexSoft\Runtime\ClockService\NormalClockService;
+use CodexSoft\Code\TimeService\NormalTimeService;
 use CodexSoft\OperationsSystem\Events\OperationExecutionProgressEvent;
 use CodexSoft\OperationsSystem\Exception\OperationException;
-use CodexSoft\OperationsSystem\Traits\ClockServiceAwareTrait;
+use CodexSoft\OperationsSystem\Traits\TimeServiceAwareTrait;
 use CodexSoft\OperationsSystem\Traits\EventDispatcherAwareTrait;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -16,7 +14,7 @@ class OperationsProcessor
 {
 
     use EventDispatcherAwareTrait;
-    use ClockServiceAwareTrait;
+    use TimeServiceAwareTrait;
 
     /** @var \SplStack|Operation[] */
     private $operationsStack;
@@ -30,7 +28,7 @@ class OperationsProcessor
     {
         $this->operationsStack = new \SplStack;
         $this->eventDispatcher = new EventDispatcher;
-        $this->clockService = new NormalClockService;
+        $this->timeService = new NormalTimeService;
     }
 
     /**
@@ -52,8 +50,8 @@ class OperationsProcessor
             ->setOperationId($operation->_getId())
             ->setExecutionState(OperationExecutionProgressEvent::EXECUTION_PROCESSING)
             ->setParameters([])
-            ->setCreatedAt($this->clockService->now())
-            ->setRegisteredAt($this->clockService->now());
+            ->setCreatedAt($this->timeService->now())
+            ->setRegisteredAt($this->timeService->now());
 
         $eventDispatcher->dispatch($operationExecutionProgressEvent);
 
@@ -63,7 +61,7 @@ class OperationsProcessor
 
             $operationExecutionProgressEvent
                 ->setExecutionState(OperationExecutionProgressEvent::EXECUTION_SUCCESS)
-                ->setProcessedAt($this->clockService->now())
+                ->setProcessedAt($this->timeService->now())
                 ->setResultContent([]) // todo: jsonable?.. try to get arrayed?
             ;
 

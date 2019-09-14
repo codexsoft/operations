@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dx
- * Date: 06.04.18
- * Time: 18:30
- */
 
 namespace CodexSoft\OperationsSystem\Exception;
-
 
 use CodexSoft\OperationsSystem\Operation;
 
