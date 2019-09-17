@@ -3,7 +3,6 @@
 namespace CodexSoft\OperationsSystem\Command;
 
 use CodexSoft\Code\Helpers\Classes;
-use CodexSoft\Code\Shortcuts;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,7 +32,6 @@ class GenerateOperationCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        Shortcuts::register();
         $operationName = $input->getArgument('name');
         $operationsPath = $this->operationsSystemSchema->getPathToOperations();
         $output->writeln('Operations path: '.$operationsPath);
