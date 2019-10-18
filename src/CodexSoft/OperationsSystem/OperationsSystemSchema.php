@@ -14,6 +14,9 @@ class OperationsSystemSchema extends AbstractModuleSchema
     /** @var string */
     private $pathToOperations;
 
+    /** @var string */
+    private $baseOperationClass = Operation::class;
+
     /**
      * @return string
      */
@@ -49,6 +52,25 @@ class OperationsSystemSchema extends AbstractModuleSchema
     public function setPathToOperations(string $pathToOperations): OperationsSystemSchema
     {
         $this->pathToOperations = $pathToOperations;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseOperationClass(): string
+    {
+        return $this->baseOperationClass;
+    }
+
+    /**
+     * @param string $baseOperationClass
+     *
+     * @return OperationsSystemSchema
+     */
+    public function setBaseOperationClass(string $baseOperationClass): OperationsSystemSchema
+    {
+        $this->baseOperationClass = $baseOperationClass;
         return $this;
     }
 
