@@ -2,13 +2,15 @@
     "name": "codexsoft/operations",
     "license": "MIT",
     "description": "A tool provides building blocks for structuring domain business-logic via operations",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.2.0",
         "ext-json": "*",
         "ext-mbstring": "*",
         "codexsoft/code": "dev-master",
         "symfony/filesystem": "~3.4|~4.0",
-        "ramsey/uuid-doctrine": "^1.4",
+        "ramsey/uuid": "^3.8",
         "symfony/event-dispatcher": "^4.1"
     },
     "require-dev": {
