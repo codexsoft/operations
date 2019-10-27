@@ -84,9 +84,9 @@ abstract class Operation implements LoggerAwareInterface
     /**
      * @param OperationsProcessor $operationsProcessor
      *
-     * @return static
+     * @return void
      */
-    public static function setOperationsProcessor(?OperationsProcessor $operationsProcessor): self
+    public static function setOperationsProcessor(?OperationsProcessor $operationsProcessor): void
     {
         static::$operationsProcessor = $operationsProcessor;
     }
