@@ -41,6 +41,10 @@ class OperationsProcessor
     public function executeOperation(Operation $operation, \Closure $runner)
     {
 
+        if ($this->getOperationsStack()->count()) {
+            $operation->setParentOperation($this->getOperationsStack()->top());
+        }
+
         $this->operationsStack->push($operation);
 
         $eventDispatcher = $this->eventDispatcher;

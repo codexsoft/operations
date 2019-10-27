@@ -36,8 +36,11 @@ abstract class Operation implements LoggerAwareInterface
     /** @var Operation|null */
     private $parentOperation;
 
-    /** @var OperationsProcessor */
-    protected $operationsProcessor;
+    /**
+     * @var OperationsProcessor|null
+     * todo: should be made static, maybe with entityManager
+     */
+    protected static $operationsProcessor;
 
     /**
      * Operation constructor.
@@ -50,17 +53,6 @@ abstract class Operation implements LoggerAwareInterface
         $this->init();
         $this->logger = new NullLogger; // todo...
     }
-
-    ///**
-    // * @return static
-    // */
-    //public static function construct(): self
-    //{
-    //    $operation = new static;
-    //    $dice = new \Dice\Dice; // how to get it here?
-    //    $dice->create(static::class);
-    //    return $operation;
-    //}
 
     /**
      * hook method to setup initial state for operation
@@ -94,10 +86,9 @@ abstract class Operation implements LoggerAwareInterface
      *
      * @return static
      */
-    public function setOperationsProcessor(OperationsProcessor $operationsProcessor): self
+    public static function setOperationsProcessor(?OperationsProcessor $operationsProcessor): self
     {
-        $this->operationsProcessor = $operationsProcessor;
-        return $this;
+        static::$operationsProcessor = $operationsProcessor;
     }
 
     /**
@@ -191,20 +182,21 @@ abstract class Operation implements LoggerAwareInterface
     {
         $this->logger->info('Попытка выполнения операции '.Classes::short($this).' ('.\get_class($this).')');
 
-        $operationsProcessor = $this->_getOperationsProcessor();
-        if ($operationsProcessor->getOperationsStack()->count()) {
-            $this->setParentOperation($operationsProcessor->getOperationsStack()->top());
+        $operationsProcessor = static::getOperationsProcessor();
+        if ($operationsProcessor instanceof OperationsProcessor) {
+            return $operationsProcessor->executeOperation($this, function() {
+                $this->_doValidateInputData();
+                return $this->handle();
+            });
         }
 
-        return $operationsProcessor->executeOperation($this, function() {
-            $this->_doValidateInputData();
-            return $this->handle();
-        });
+        $this->_doValidateInputData();
+        return $this->handle();
     }
 
-    private function _getOperationsProcessor(): OperationsProcessor
+    protected static function getOperationsProcessor(): ?OperationsProcessor
     {
-        return $this->operationsProcessor;
+        return static::$operationsProcessor;
     }
 
     /**
@@ -278,9 +270,9 @@ abstract class Operation implements LoggerAwareInterface
     /**
      * @param Operation|null $parentOperation
      *
-     * @return Operation
+     * @return static
      */
-    private function setParentOperation(?Operation $parentOperation): Operation
+    public function setParentOperation(?Operation $parentOperation): self
     {
         $this->parentOperation = $parentOperation;
         return $this;
