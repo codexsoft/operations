@@ -23,4 +23,12 @@ trait EventDispatcherAwareTrait
         return $this;
     }
 
+    /**
+     * @return EventDispatcherInterface
+     */
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
+    }
+
 }
