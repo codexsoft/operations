@@ -32,12 +32,6 @@ final class OperationException extends \Exception
     protected $extraData = [];
 
     /**
-     * @var string
-     * @deprecated will be removed
-     */
-    protected $messagePrefix;
-
-    /**
      * OperationException constructor.
      *
      * @param string $message
@@ -121,38 +115,6 @@ final class OperationException extends \Exception
     public function getOperationId(): string
     {
         return $this->operationId;
-    }
-
-    /**
-     * @return string
-     * @deprecated use getCode() instead
-     */
-    public function getErrorCode(): string
-    {
-        return $this->getCode();
-    }
-
-    /**
-     * @param string $errorCode
-     *
-     * @return static
-     * @deprecated use setCode() instead
-     */
-    public function setErrorCode(string $errorCode): self
-    {
-        throw new \RuntimeException('setErrorCode is deprecated. use constructor $code argument instead');
-    }
-
-    /**
-     * @param string $messagePrefix
-     *
-     * @return static
-     * @deprecated will be removed
-     */
-    public function setMessagePrefix(string $messagePrefix): self
-    {
-        $this->messagePrefix = $messagePrefix;
-        return $this;
     }
 
     /**
