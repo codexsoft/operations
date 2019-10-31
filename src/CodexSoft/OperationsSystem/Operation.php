@@ -161,12 +161,7 @@ abstract class Operation implements LoggerAwareInterface
 
         $this->logger->debug($errorMessage);
 
-        $exception = (new OperationException($errorMessage, $errorCode, $previous, $extraData))
-            ->setOperationId(static::_id())
-            ->setOperationInstance($this)
-            ->setOperationClass(static::class);
-
-        return $exception;
+        return (new OperationException($this, $errorMessage, $errorCode, $previous, $extraData));
     }
 
     /**

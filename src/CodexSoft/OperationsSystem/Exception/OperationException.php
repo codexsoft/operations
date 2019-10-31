@@ -34,48 +34,19 @@ final class OperationException extends \Exception
     /**
      * OperationException constructor.
      *
+     * @param Operation $operationInstance
      * @param string $message
      * @param int $code
      * @param \Throwable|null $previous
      * @param array $extraData
      */
-    public function __construct(string $message = '', int $code = 0, \Throwable $previous = null, array $extraData = [])
-    {
-        $this->extraData = $extraData;
-        parent::__construct($message,$code,$previous);
-    }
-
-    /**
-     * @param string $operationClass
-     *
-     * @return static
-     */
-    public function setOperationClass(string $operationClass): self
-    {
-        $this->operationClass = $operationClass;
-        return $this;
-    }
-
-    /**
-     * @param int $operationCode
-     *
-     * @return static
-     * @deprecated use setOperationId() instead
-     */
-    public function setOperationCode(int $operationCode): self
-    {
-        return $this->setOperationId($operationCode);
-    }
-
-    /**
-     * @param Operation $operationInstance
-     *
-     * @return static
-     */
-    public function setOperationInstance(Operation $operationInstance): self
+    public function __construct(Operation $operationInstance, string $message = '', int $code = 0, \Throwable $previous = null, array $extraData = [])
     {
         $this->operationInstance = $operationInstance;
-        return $this;
+        $this->operationClass = \get_class($operationInstance);
+        $this->operationId = $operationInstance->_getId();
+        $this->extraData = $extraData;
+        parent::__construct($message, $code, $previous);
     }
 
     /**
@@ -95,17 +66,6 @@ final class OperationException extends \Exception
     public function setExtraData(array $extraData): self
     {
         $this->extraData = $extraData;
-        return $this;
-    }
-
-    /**
-     * @param string $operationId
-     *
-     * @return OperationException
-     */
-    public function setOperationId(string $operationId): OperationException
-    {
-        $this->operationId = $operationId;
         return $this;
     }
 
