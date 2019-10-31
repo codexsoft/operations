@@ -79,7 +79,7 @@ class OperationsProcessor
                 /** @var OperationException $wrappedException */
                 $wrappedException = $e;
             } else {
-                $wrappedException = new OperationException('Failed to execute operation '.Classes::short($operation).': '.$e->getMessage(), Operation::ERROR_CODE_UNHANDLED_EXCEPTION, $e);
+                $wrappedException = new OperationException($operation, 'Failed to execute operation '.Classes::short($operation).': '.$e->getMessage(), Operation::ERROR_CODE_UNHANDLED_EXCEPTION, $e);
             }
 
             // Сохраняем в БД информацию о неудачной попытке выполнения операции. Чтобы точно
