@@ -50,8 +50,8 @@ abstract class Operation implements LoggerAwareInterface
      */
     final public function __construct()
     {
-        $this->init();
         $this->logger = new NullLogger; // todo...
+        $this->init();
     }
 
     /**
