@@ -123,9 +123,9 @@ final class OperationException extends \Exception
      *
      * @return string|null
      */
-    public function getErrorCodeConstName(int $constValue): ?string
+    public function getErrorCodeConstName(?int $constValue = null): ?string
     {
-        return $this->operationClass::getErrorCodeConstName($constValue);
+        return $this->operationClass::getErrorCodeConstName($constValue ?: $this->code);
     }
 
 }
