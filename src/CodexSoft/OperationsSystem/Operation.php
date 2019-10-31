@@ -286,4 +286,18 @@ abstract class Operation implements LoggerAwareInterface
         return $this->parentOperation;
     }
 
+    /**
+     * example usage
+     * public const ERROR_CODE_INVALID_INPUT_DATA = -1;
+     * public const ERROR_CODE_UNHANDLED_EXCEPTION = -2;
+     * Operation::getErrorCodeConstName(-1) => 'ERROR_CODE_INVALID_INPUT_DATA'
+     *
+     * @param int $value
+     * @return string|null
+     */
+    public static function getErrorCodeConstName(int $value): ?string
+    {
+        return Classes::getConstantNameByValue($value, static::class, 'ERROR_CODE_');
+    }
+
 }

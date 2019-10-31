@@ -8,7 +8,7 @@ final class OperationException extends \Exception
 {
 
     /**
-     * @var string
+     * @var string|Operation
      * Класс операции, в которой произошло исключение
      */
     protected $operationClass;
@@ -153,6 +153,17 @@ final class OperationException extends \Exception
     {
         $this->messagePrefix = $messagePrefix;
         return $this;
+    }
+
+    /**
+     * Usage: $operationException->getErrorCodeConstName(-1) => 'ERROR_CODE_INVALID_INPUT_DATA'
+     * @param int $constValue
+     *
+     * @return string|null
+     */
+    public function getErrorCodeConstName(int $constValue): ?string
+    {
+        return $this->operationClass::getErrorCodeConstName($constValue);
     }
 
 }
