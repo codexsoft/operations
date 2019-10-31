@@ -86,6 +86,7 @@ class OperationsProcessor
             // сохранилось, все открытые транзакции откатываем.
 
             $operationExecutionProgressEvent
+                ->setProcessedAt($this->timeService->now())
                 ->setExecutionState(OperationExecutionProgressEvent::EXECUTION_FAILED)
                 ->setExceptionInstance($wrappedException);
 
