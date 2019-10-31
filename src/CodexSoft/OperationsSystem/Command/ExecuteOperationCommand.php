@@ -56,7 +56,7 @@ class ExecuteOperationCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(sprintf('Executing operation "<info>%s</info>"', \get_class($this->operation)));
+        $output->writeln(sprintf('%s: Executing operation "<info>%s</info>"', static::class, \get_class($this->operation)));
 
         $callback = $this->configCallback;
         if ($callback instanceof \Closure) {
