@@ -305,7 +305,10 @@ abstract class Operation implements LoggerAwareInterface
         }
 
         $ancestorOperations = [$this->parentOperation];
-        \array_push($ancestorOperations, ...$this->parentOperation->getOperationsStack());
+        $operationsStack = $this->parentOperation->getOperationsStack();
+        if ($operationsStack) {
+            \array_push($ancestorOperations, ...$this->parentOperation->getOperationsStack());
+        }
         return $ancestorOperations;
     }
 
