@@ -295,4 +295,18 @@ abstract class Operation implements LoggerAwareInterface
         return Classes::getConstantNameByValue($value, static::class, 'ERROR_CODE_');
     }
 
+    /**
+     * @return Operation[]
+     */
+    public function getOperationsStack(): array
+    {
+        if (!$this->parentOperation) {
+            return [];
+        }
+
+        $ancestorOperations = [$this->parentOperation];
+        \array_push($ancestorOperations, ...$this->parentOperation->getOperationsStack());
+        return $ancestorOperations;
+    }
+
 }
