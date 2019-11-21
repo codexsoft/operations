@@ -23,4 +23,15 @@ class ClosureOperation extends Operation
         $closure = $this->closure;
         return $closure();
     }
+
+    /**
+     * @param \Closure $closure
+     *
+     * @return ClosureOperation
+     */
+    public function setClosure(\Closure $closure): ClosureOperation
+    {
+        $this->closure = $closure;
+        return $this;
+    }
 }
