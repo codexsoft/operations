@@ -11,8 +11,6 @@ use Psr\Log\NullLogger;
 abstract class Operation implements LoggerAwareInterface
 {
 
-    //use Loggable;
-
     protected const ERROR_PREFIX = '';
 
     protected const ID = null;
@@ -30,6 +28,8 @@ abstract class Operation implements LoggerAwareInterface
      */
     public const ERROR_CODE_UNHANDLED_EXCEPTION = -2;
 
+    public const ERROR_MESSAGE_INCOMPLETE_INPUT = 'Неполный набор данных для выполнения операции';
+
     /** @var array extra data can be helpful to get additional information after executing */
     private $extraData = [];
 
@@ -44,6 +44,18 @@ abstract class Operation implements LoggerAwareInterface
 
     /** @var LoggerInterface */
     private $logger;
+
+    /**
+     * Operation constructor.
+     *
+     * in order to use Actors functionality and get more flexibility to use in tests, use setters!
+     * to setup initial state, override init()
+     */
+    final public function __construct()
+    {
+        $this->logger = new NullLogger; // todo...
+        $this->init();
+    }
 
     /**
      * @param LoggerInterface $logger
@@ -65,18 +77,6 @@ abstract class Operation implements LoggerAwareInterface
     }
 
     /**
-     * Operation constructor.
-     *
-     * in order to use Actors functionality and get more flexibility to use in tests, use setters!
-     * to setup initial state, override init()
-     */
-    final public function __construct()
-    {
-        $this->logger = new NullLogger; // todo...
-        $this->init();
-    }
-
-    /**
      * hook method to setup initial state for operation
      */
     protected function init(): void
@@ -87,9 +87,9 @@ abstract class Operation implements LoggerAwareInterface
     /**
      * @param array $extraData
      *
-     * @return Operation
+     * @return static
      */
-    protected function setExtraData(array $extraData): Operation
+    protected function setExtraData(array $extraData): self
     {
         $this->extraData = $extraData;
         return $this;
@@ -125,9 +125,9 @@ abstract class Operation implements LoggerAwareInterface
     {
         if (!$statement) {
             if ($errorCode) {
-                throw $this->exception($errorCode, $messageOnFail ?? 'Неполный набор данных для выполнения операции');
+                throw $this->exception($errorCode, $messageOnFail ?? static::ERROR_MESSAGE_INCOMPLETE_INPUT);
             }
-            throw $this->genericException($messageOnFail ?? 'Неполный набор данных для выполнения операции');
+            throw $this->genericException($messageOnFail ?? static::ERROR_MESSAGE_INCOMPLETE_INPUT);
         }
     }
 
@@ -142,7 +142,7 @@ abstract class Operation implements LoggerAwareInterface
     {
         foreach ($statements as $statement) {
             if (!$statement) {
-                throw $this->genericException($messageOnFail ?? 'Неполный набор данных для выполнения операции');
+                throw $this->genericException($messageOnFail ?? static::ERROR_MESSAGE_INCOMPLETE_INPUT);
             }
         }
     }

@@ -8,6 +8,7 @@ use CodexSoft\OperationsSystem\Exception\OperationException;
 use CodexSoft\OperationsSystem\Traits\TimeServiceAwareTrait;
 use CodexSoft\OperationsSystem\Traits\EventDispatcherAwareTrait;
 use CodexSoft\TimeService\NormalTimeService;
+use CodexSoft\TimeService\TimeServiceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class OperationsProcessor
@@ -24,11 +25,11 @@ class OperationsProcessor
      */
     private $registeredFailedOperations = [];
 
-    public function __construct()
+    public function __construct(?TimeServiceInterface $timeService = null)
     {
         $this->operationsStack = new \SplStack;
         $this->eventDispatcher = new EventDispatcher;
-        $this->timeService = new NormalTimeService;
+        $this->timeService = $timeService ?: new NormalTimeService();
     }
 
     /**
