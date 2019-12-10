@@ -6,16 +6,17 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.2.0",
-        "ext-json": "*",
         "ext-mbstring": "*",
         "codexsoft/code-classes": "^1.0",
+        "codexsoft/code-files": "^1.0",
         "codexsoft/code-strings": "^1.0",
         "codexsoft/time-service": "^1.0",
         "ramsey/uuid": "^3.8",
         "symfony/console": "~3.4|~4.0|~5.0",
         "symfony/event-dispatcher": "^4.1|~5.0",
         "symfony/filesystem": "~3.4|~4.0|~5.0",
-        "codexsoft/code-files": "^1.0"
+        "voku/stringy": "^6.0",
+        "codexsoft/shortcut-tab-constant": "^1.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"

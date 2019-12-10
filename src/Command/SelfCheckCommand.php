@@ -4,19 +4,21 @@ namespace CodexSoft\OperationsSystem\Command;
 
 use CodexSoft\Code\Classes\Classes;
 use CodexSoft\Code\Files\Files;
-use const CodexSoft\Code\TAB;
+use CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use CodexSoft\OperationsSystem\Operation;
-use function CodexSoft\Code\str;
+use function Stringy\create as str;
+
+use const CodexSoft\Shortcut\TAB;
 
 class SelfCheckCommand extends Command
 {
 
-    use \CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
+    use OperationsSystemSchemaAwareTrait;
 
     private $uuidVar = Operation::_ID_VAR_NAME;
 

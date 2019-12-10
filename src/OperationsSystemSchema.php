@@ -2,11 +2,15 @@
 
 namespace CodexSoft\OperationsSystem;
 
-use CodexSoft\Code\AbstractModuleSchema;
 use CodexSoft\Code\Strings\Strings;
 
-class OperationsSystemSchema extends AbstractModuleSchema
+class OperationsSystemSchema
 {
+
+    protected $namespaceBase = 'App\\Domain';
+
+    /** @var string */
+    protected $pathToPsrRoot = '/src';
 
     /** @var string */
     private $namespaceOperations;
@@ -16,6 +20,63 @@ class OperationsSystemSchema extends AbstractModuleSchema
 
     /** @var string */
     private $baseOperationClass = Operation::class;
+
+    /**
+     * @param string $domainConfigFile
+     *
+     * @return static
+     * @throws \Exception
+     */
+    public static function getFromConfigFile(string $domainConfigFile): self
+    {
+        ob_start();
+        $domainSchema = include $domainConfigFile;
+        ob_end_clean();
+
+        if (!$domainSchema instanceof static) {
+            throw new \Exception("File $domainConfigFile does not return valid ".static::class."!\n");
+        }
+
+        return $domainSchema;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathToPsrRoot(): string
+    {
+        return $this->pathToPsrRoot;
+    }
+
+    /**
+     * @param string $pathToPsrRoot
+     *
+     * @return static
+     */
+    public function setPathToPsrRoot(string $pathToPsrRoot): self
+    {
+        $this->pathToPsrRoot = $pathToPsrRoot;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespaceBase(): string
+    {
+        return $this->namespaceBase;
+    }
+
+    /**
+     * @param string $namespaceBase
+     *
+     * @return static
+     */
+    public function setNamespaceBase(string $namespaceBase): self
+    {
+        $this->namespaceBase = $namespaceBase;
+        return $this;
+    }
 
     /**
      * @return string

@@ -3,6 +3,7 @@
 namespace CodexSoft\OperationsSystem\Command;
 
 use CodexSoft\Code\Classes\Classes;
+use CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,13 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use CodexSoft\OperationsSystem\Operation;
 use CodexSoft\OperationsSystem\Exception\OperationException;
-use function CodexSoft\Code\str;
-use const CodexSoft\Code\TAB;
+use function Stringy\create as str;
+
+use const CodexSoft\Shortcut\TAB;
 
 class GenerateOperationCommand extends Command
 {
 
-    use \CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
+    use OperationsSystemSchemaAwareTrait;
 
     protected function configure()
     {
