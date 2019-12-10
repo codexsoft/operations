@@ -2,12 +2,12 @@
 
 namespace CodexSoft\OperationsSystem;
 
-use CodexSoft\Code\Helpers\Classes;
-use CodexSoft\Code\TimeService\NormalTimeService;
+use CodexSoft\Code\Classes\Classes;
 use CodexSoft\OperationsSystem\Events\OperationExecutionProgressEvent;
 use CodexSoft\OperationsSystem\Exception\OperationException;
 use CodexSoft\OperationsSystem\Traits\TimeServiceAwareTrait;
 use CodexSoft\OperationsSystem\Traits\EventDispatcherAwareTrait;
+use CodexSoft\TimeService\NormalTimeService;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class OperationsProcessor

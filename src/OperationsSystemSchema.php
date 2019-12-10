@@ -3,7 +3,7 @@
 namespace CodexSoft\OperationsSystem;
 
 use CodexSoft\Code\AbstractModuleSchema;
-use CodexSoft\Code\Helpers\Strings;
+use CodexSoft\Code\Strings\Strings;
 
 class OperationsSystemSchema extends AbstractModuleSchema
 {

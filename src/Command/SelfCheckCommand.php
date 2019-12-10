@@ -2,9 +2,9 @@
 
 namespace CodexSoft\OperationsSystem\Command;
 
-use CodexSoft\Code\Helpers\Classes;
+use CodexSoft\Code\Classes\Classes;
+use CodexSoft\Code\Files\Files;
 use const CodexSoft\Code\TAB;
-use CodexSoft\Code\Helpers\Files;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

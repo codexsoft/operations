@@ -2,16 +2,16 @@
 
 namespace CodexSoft\OperationsSystem;
 
-use CodexSoft\Code\Helpers\Classes;
-use CodexSoft\Code\Traits\Loggable;
+use CodexSoft\Code\Classes\Classes;
 use CodexSoft\OperationsSystem\Exception\OperationException;
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 abstract class Operation implements LoggerAwareInterface
 {
 
-    use Loggable;
+    //use Loggable;
 
     protected const ERROR_PREFIX = '';
 
@@ -41,6 +41,28 @@ abstract class Operation implements LoggerAwareInterface
      * todo: should be made static, maybe with entityManager
      */
     protected static $operationsProcessor;
+
+    /** @var LoggerInterface */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
+     *
+     * @return static
+     */
+    public function setLogger($logger): self
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger ?: $this->logger = new NullLogger;
+    }
 
     /**
      * Operation constructor.

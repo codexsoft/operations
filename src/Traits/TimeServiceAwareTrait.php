@@ -2,7 +2,7 @@
 
 namespace CodexSoft\OperationsSystem\Traits;
 
-use CodexSoft\Code\TimeService\TimeServiceInterface;
+use CodexSoft\TimeService\TimeServiceInterface;
 
 trait TimeServiceAwareTrait
 {
@@ -18,5 +18,5 @@ trait TimeServiceAwareTrait
     {
         $this->timeService = $timeService;
         return $this;
-}
+    }
 }
