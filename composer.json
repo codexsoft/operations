@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.2.0",
         "ext-mbstring": "*",
+        "codexsoft/cli": "^1.0",
         "codexsoft/code-classes": "^1.0",
         "codexsoft/code-files": "^1.0",
         "codexsoft/code-strings": "^1.0",

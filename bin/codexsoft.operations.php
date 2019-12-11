@@ -1,6 +1,6 @@
 <?php
 
-use CodexSoft\Code\Helpers\Cli;
+use CodexSoft\Cli\Cli;
 use CodexSoft\OperationsSystem\OperationsSystemSchema;
 use Symfony\Component\Console\Command\Command;
 
