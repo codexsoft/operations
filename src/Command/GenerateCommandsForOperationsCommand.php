@@ -19,23 +19,35 @@ class GenerateCommandsForOperationsCommand extends Command
 {
     use OperationsSystemSchemaAwareTrait;
 
+    private bool $overwriteExisting = false;
+
     protected function configure()
     {
         $this->setDescription('Generate console commands for operations');
+        $this->addOption('overwrite', 'o', InputOption::VALUE_NONE, 'should command files be overriden if exists');
         parent::configure();
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->overwriteExisting = (bool) $input->getOption('overwrite');
+
         $operationClassesReflections = Operations::collectOperationsFromPath(
             $this->operationsSystemSchema->getPathToOperations(),
             $this->operationsSystemSchema->getNamespaceOperations(),
             $output
         );
 
+        $fs = new Filesystem();
+
         foreach ($operationClassesReflections as $operationClassReflection) {
 
             $commandClassName = $operationClassReflection->getShortName().'Command';
+            $commandFile = $this->operationsSystemSchema->getPathToCommands().'/'.$commandClassName.'.php';
+
+            if (!$this->overwriteExisting && $fs->exists($commandFile)) {
+                $output->writeln("Command file $commandFile already exists, generation skipped.");
+            }
 
             $operationProperties = $operationClassReflection->getProperties();
             $optionConfigurationLines = [];
@@ -56,7 +68,7 @@ class GenerateCommandsForOperationsCommand extends Command
 
                 $propertyName = $operationProperty->getName();
 
-                if (\in_array($propertyName, $propertiesToSkip)) {
+                if (\in_array($propertyName, $propertiesToSkip, true)) {
                     continue;
                 }
 
@@ -104,14 +116,14 @@ class GenerateCommandsForOperationsCommand extends Command
                             if ($operationClassReflection->hasMethod($methodName)) {
                                 $optionSetLines[] = TAB.TAB."\$operation->{$methodName}(\$input->getOption('{$optionName}'));";
                                 break;
-                            } else {
-                                $operationTraits = Traits::usedByClass($operationClassReflection->getName());
-                                foreach ($operationTraits as $operationTrait) {
-                                    $operationTraitReflection = new \ReflectionClass($operationTrait);
-                                    if ($operationTraitReflection->hasMethod($methodName)) {
-                                        $optionSetLines[] = TAB.TAB."\$operation->{$methodName}(\$input->getOption('{$optionName}'));";
-                                        break;
-                                    }
+                            }
+
+                            $operationTraits = Traits::usedByClass($operationClassReflection->getName());
+                            foreach ($operationTraits as $operationTrait) {
+                                $operationTraitReflection = new \ReflectionClass($operationTrait);
+                                if ($operationTraitReflection->hasMethod($methodName)) {
+                                    $optionSetLines[] = TAB.TAB."\$operation->{$methodName}(\$input->getOption('{$optionName}'));";
+                                    break;
                                 }
                             }
                         }
@@ -164,8 +176,9 @@ class GenerateCommandsForOperationsCommand extends Command
                 '}',
             ];
 
-            $fs = new Filesystem();
-            $fs->dumpFile($this->operationsSystemSchema->getPathToCommands().'/'.$commandClassName.'.php', implode("\n", $code));
+
+            $fs->dumpFile($commandFile, implode("\n", $code));
+
         }
     }
 
