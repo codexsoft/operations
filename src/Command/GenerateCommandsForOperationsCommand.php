@@ -47,6 +47,7 @@ class GenerateCommandsForOperationsCommand extends Command
 
             if (!$this->overwriteExisting && $fs->exists($commandFile)) {
                 $output->writeln("Command file $commandFile already exists, generation skipped.");
+                continue;
             }
 
             $operationProperties = $operationClassReflection->getProperties();
