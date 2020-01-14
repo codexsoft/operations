@@ -33,7 +33,7 @@ abstract class Operation implements LoggerAwareInterface
     /** extra data can be helpful to get additional information after executing */
     private array $extraData = [];
 
-    private ?Operation $parentOperation;
+    private ?Operation $parentOperation = null;
 
     /**
      * todo: should be made static, maybe with entityManager
