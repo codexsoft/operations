@@ -11,9 +11,7 @@ use CodexSoft\OperationsSystem\Operation;
  */
 class ClosureOperation extends Operation
 {
-
-    /** @var \Closure */
-    private $closure;
+    private ?\Closure $closure = null;
 
     /**
      * @return mixed

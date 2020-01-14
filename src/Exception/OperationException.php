@@ -11,25 +11,22 @@ final class OperationException extends \Exception
      * @var string|Operation
      * Класс операции, в которой произошло исключение
      */
-    protected $operationClass;
+    protected string $operationClass;
 
     /**
-     * @var string
      * UUID операции, в которой произошло исключение
      */
-    protected $operationId;
+    protected string $operationId;
 
     /**
-     * @var Operation
      * Экземпляр операции, в которой произошло исключение
      */
-    protected $operationInstance;
+    protected Operation $operationInstance;
 
     /**
-     * @var array
      * Дополнительные данные, которые могут быть полезны для обработки исключения
      */
-    protected $extraData = [];
+    protected array $extraData = [];
 
     /**
      * OperationException constructor.

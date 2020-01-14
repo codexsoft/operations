@@ -8,9 +8,7 @@ use CodexSoft\OperationsSystem\OperationsProcessor;
 
 trait OperationsProcessorAwareTrait
 {
-
-    /** @var OperationsProcessor|null */
-    protected $operationsProcessor;
+    protected ?OperationsProcessor $operationsProcessor = null;
 
     /**
      * @param OperationsProcessor $operationsProcessor

@@ -14,6 +14,9 @@ $commandList = [
     'add-operation' => (new \CodexSoft\OperationsSystem\Command\GenerateOperationCommand)
         ->setOperationsSystemSchema($operationsSystemSchema),
 
+    'commands' => (new \CodexSoft\OperationsSystem\Command\GenerateCommandsForOperationsCommand)
+        ->setOperationsSystemSchema($operationsSystemSchema),
+
     'selfcheck' => (new \CodexSoft\OperationsSystem\Command\SelfCheckCommand)
         ->setOperationsSystemSchema($operationsSystemSchema),
 

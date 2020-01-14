@@ -7,9 +7,7 @@ use CodexSoft\OperationsSystem\OperationsSystemSchema;
 
 trait OperationsSystemSchemaAwareTrait
 {
-
-    /** @var OperationsSystemSchema */
-    private $operationsSystemSchema;
+    private ?OperationsSystemSchema $operationsSystemSchema = null;
 
     /**
      * @param OperationsSystemSchema $operationsSystemSchema

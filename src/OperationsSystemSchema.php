@@ -6,20 +6,13 @@ use CodexSoft\Code\Strings\Strings;
 
 class OperationsSystemSchema
 {
-
-    protected $namespaceBase = 'App\\Domain';
-
-    /** @var string */
-    protected $pathToPsrRoot = '/src';
-
-    /** @var string */
-    private $namespaceOperations;
-
-    /** @var string */
-    private $pathToOperations;
-
-    /** @var string */
-    private $baseOperationClass = Operation::class;
+    protected string $namespaceBase = 'App\\Domain';
+    protected string $pathToPsrRoot = '/src';
+    private ?string $namespaceOperations = null;
+    private ?string $pathToOperations = null;
+    private ?string $namespaceCommands = null;
+    private ?string $pathToCommands = null;
+    private string $baseOperationClass = Operation::class;
 
     /**
      * @param string $domainConfigFile
@@ -133,6 +126,44 @@ class OperationsSystemSchema
     {
         $this->baseOperationClass = $baseOperationClass;
         return $this;
+    }
+
+    /**
+     * @param string|null $namespaceCommands
+     *
+     * @return OperationsSystemSchema
+     */
+    public function setNamespaceCommands(?string $namespaceCommands): OperationsSystemSchema
+    {
+        $this->namespaceCommands = $namespaceCommands;
+        return $this;
+    }
+
+    /**
+     * @param string|null $pathToCommands
+     *
+     * @return OperationsSystemSchema
+     */
+    public function setPathToCommands(?string $pathToCommands): OperationsSystemSchema
+    {
+        $this->pathToCommands = $pathToCommands;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNamespaceCommands(): ?string
+    {
+        return $this->namespaceCommands ?: $this->getNamespaceBase().'\\Commands';
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPathToCommands(): ?string
+    {
+        return $this->pathToCommands ?: $this->pathToPsrRoot.'/'.Strings::bs2s($this->getNamespaceCommands());
     }
 
 }

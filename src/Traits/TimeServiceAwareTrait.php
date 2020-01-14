@@ -6,8 +6,7 @@ use CodexSoft\TimeService\TimeServiceInterface;
 
 trait TimeServiceAwareTrait
 {
-    /** @var TimeServiceInterface */
-    protected $timeService;
+    protected ?TimeServiceInterface $timeService = null;
 
     /**
      * @param TimeServiceInterface $timeService

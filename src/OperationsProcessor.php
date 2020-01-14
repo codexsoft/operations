@@ -18,12 +18,12 @@ class OperationsProcessor
     use TimeServiceAwareTrait;
 
     /** @var \SplStack|Operation[] */
-    private $operationsStack;
+    private \SplStack $operationsStack;
 
     /**
      * @var OperationExecutionProgressEvent[]
      */
-    private $registeredFailedOperations = [];
+    private array $registeredFailedOperations = [];
 
     public function __construct(?TimeServiceInterface $timeService = null)
     {

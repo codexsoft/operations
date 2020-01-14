@@ -2,8 +2,7 @@
 
 namespace CodexSoft\OperationsSystem\Command;
 
-use CodexSoft\Code\Classes\Classes;
-use CodexSoft\Code\Files\Files;
+use CodexSoft\OperationsSystem\Operations;
 use CodexSoft\OperationsSystem\Traits\OperationsSystemSchemaAwareTrait;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
@@ -17,76 +16,35 @@ use const CodexSoft\Shortcut\TAB;
 
 class SelfCheckCommand extends Command
 {
-
     use OperationsSystemSchemaAwareTrait;
 
-    private $uuidVar = Operation::_ID_VAR_NAME;
-
-    private $autofixIds = false;
+    private string $uuidVar = Operation::_ID_VAR_NAME;
+    private bool $autofixIds = false;
 
     protected function configure()
     {
-
         $this
             ->setDescription('Check core for logical errors.')
             ->addOption('autofix', null, InputOption::VALUE_NONE, 'auto-fix ID costants')
         ;
         parent::configure();
-
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     *
+     * @return int|void
+     * @throws \Exception
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->autofixIds = (bool) $input->getOption('autofix');
-        $operationsPath = $this->operationsSystemSchema->getPathToOperations();
-        $operationsNamespace = $this->operationsSystemSchema->getNamespaceOperations();
-        $this->checkOperations($operationsPath, $operationsNamespace, $output);
-    }
-
-    private function checkOperations(string $operationsPath, string $operationsNamespace, OutputInterface $output)
-    {
-        $filesList = Files::listFilesWithPath($operationsPath);
-
-        // getting operation class reflections
-        /** @var \ReflectionClass[] $operationClassesReflections */
-        $operationClassesReflections = [];
-        foreach ($filesList as $item => $content) {
-            $content = (string) str($content)->replace('//','/');
-            if (!str($content)->endsWith('.php')) {
-                continue;
-            }
-            $operationClass = $operationsNamespace.'\\'.str($content)->removeRight('.php')->replace('/','\\');
-
-            if (\trait_exists($operationClass)) {
-                continue;
-            }
-
-            if (!\class_exists($operationClass)) {
-                $output->writeln($operationClass." does not exists (but file $content does)!");
-                continue;
-            }
-
-            $output->writeln($content.' - '.$operationClass, OutputInterface::VERBOSITY_VERY_VERBOSE);
-
-            try {
-                $operationClassReflection = new \ReflectionClass($operationClass);
-                $operationClassReflection->getFileName();
-            } catch (\ReflectionException $e) {
-                $output->writeln($operationClass.' failed to get reflection!');
-                continue;
-            }
-
-            if ($operationClassReflection->isAbstract()) {
-                continue;
-            }
-
-            if (!Classes::isSameOrExtends($operationClass, Operation::class)) {
-                $output->writeln($operationClass.' is not extending Operation, skipped!', OutputInterface::VERBOSITY_VERY_VERBOSE);
-                continue;
-            }
-
-            $operationClassesReflections[$operationClass] = $operationClassReflection;
-        }
+        $operationClassesReflections = Operations::collectOperationsFromPath(
+            $this->operationsSystemSchema->getPathToOperations(),
+            $this->operationsSystemSchema->getNamespaceOperations(),
+            $output
+        );
 
         $withoutUuid = [];
         foreach ($operationClassesReflections as $operationClassReflection) {
@@ -118,6 +76,7 @@ class SelfCheckCommand extends Command
         foreach ($withoutUuid as $withoutUuidItem) {
             $output->writeln('Missed UUID in class '.$withoutUuidItem);
         }
+
     }
 
     /**

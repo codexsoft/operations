@@ -30,20 +30,17 @@ abstract class Operation implements LoggerAwareInterface
 
     public const ERROR_MESSAGE_INCOMPLETE_INPUT = 'Неполный набор данных для выполнения операции';
 
-    /** @var array extra data can be helpful to get additional information after executing */
-    private $extraData = [];
+    /** extra data can be helpful to get additional information after executing */
+    private array $extraData = [];
 
-    /** @var Operation|null */
-    private $parentOperation;
+    private ?Operation $parentOperation;
 
     /**
-     * @var OperationsProcessor|null
      * todo: should be made static, maybe with entityManager
      */
-    protected static $operationsProcessor;
+    protected static ?OperationsProcessor $operationsProcessor;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * Operation constructor.

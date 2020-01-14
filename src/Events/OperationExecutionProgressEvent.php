@@ -25,67 +25,56 @@ class OperationExecutionProgressEvent
     public const EXECUTION_FAILED = 3;
 
     /**
-     * @var \DateTime|null
      * Момент внесения записи
      */
-    private $createdAt;
+    private ?\DateTime $createdAt = null;
 
     /**
-     * @var integer|null
      * Время исполнения операции (в микросекундах)
      */
-    private $executionTimeInMsec;
+    private ?int $executionTimeInMsec = null;
 
     /**
-     * @var array|null
      * Значения атрибутов операции
      */
-    private $fields;
+    private ?array $fields = null;
 
     /**
-     * @var array|null
      * Параметры операции
      */
-    private $parameters;
+    private ?array $parameters = null;
 
     /**
-     * @var \DateTime|null
      * Когда обработано
      */
-    private $processedAt;
+    private ?\DateTime $processedAt = null;
 
     /**
-     * @var \DateTime|null
      * Когда
      */
-    private $registeredAt;
+    private ?\DateTime $registeredAt = null;
 
     /**
-     * @var array|null
      * Содержимое результата
      */
-    private $resultContent;
+    private ?array $resultContent = null;
 
     /**
-     * @var string|null
      * UUID операции
      */
-    private $operationId;
+    private ?string $operationId = null;
 
     /**
-     * @var \Exception|null
      * Operation exception instance
      */
-    private $exceptionInstance;
+    private ?\Exception $exceptionInstance = null;
 
     /**
-     * @var int
      * Статус выполнения операции
      */
-    private $executionState = self::EXECUTION_PROCESSING;
+    private int $executionState = self::EXECUTION_PROCESSING;
 
-    /** @var Operation */
-    private $operationInstance;
+    private ?Operation $operationInstance = null;
 
     /**
      * @param \DateTime|null $createdAt
