@@ -33,7 +33,7 @@ class GenerateCommandsForOperationsCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->overwriteExisting = (bool) $input->getOption('overwrite');
-        $this->prefix = (string) $input->getOption('overwrite');
+        $this->prefix = (string) $input->getOption('prefix');
 
         $operationClassesReflections = Operations::collectOperationsFromPath(
             $this->operationsSystemSchema->getPathToOperations(),
