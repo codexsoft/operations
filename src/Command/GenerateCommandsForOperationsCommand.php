@@ -20,17 +20,20 @@ class GenerateCommandsForOperationsCommand extends Command
     use OperationsSystemSchemaAwareTrait;
 
     private bool $overwriteExisting = false;
+    private string $prefix = '';
 
     protected function configure()
     {
         $this->setDescription('Generate console commands for operations');
         $this->addOption('overwrite', 'o', InputOption::VALUE_NONE, 'should command files be overriden if exists');
+        $this->addOption('prefix', 'p', InputOption::VALUE_OPTIONAL, 'prefix to add to command name (for example, "app:")');
         parent::configure();
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->overwriteExisting = (bool) $input->getOption('overwrite');
+        $this->prefix = (string) $input->getOption('overwrite');
 
         $operationClassesReflections = Operations::collectOperationsFromPath(
             $this->operationsSystemSchema->getPathToOperations(),
@@ -141,6 +144,7 @@ class GenerateCommandsForOperationsCommand extends Command
 
             //$cmdName = (string) str($operationClassReflection->getShortName())->removeRight('Operation')->slugify();
             $cmdName = (string) str($operationClassReflection->getShortName())->removeRight('Operation')->dasherize();
+            $cmdName = $this->prefix.$cmdName;
 
             //$operationClassReflection->getName();
             $code = [
