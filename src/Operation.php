@@ -38,7 +38,7 @@ abstract class Operation implements LoggerAwareInterface
     /**
      * todo: should be made static, maybe with entityManager
      */
-    protected static ?OperationsProcessor $operationsProcessor;
+    protected static ?OperationsProcessor $operationsProcessor = null;
 
     private LoggerInterface $logger;
 
