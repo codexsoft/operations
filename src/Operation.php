@@ -48,7 +48,7 @@ abstract class Operation implements LoggerAwareInterface
      * in order to use Actors functionality and get more flexibility to use in tests, use setters!
      * to setup initial state, override init()
      */
-    final public function __construct()
+    public function __construct()
     {
         $this->logger = new NullLogger; // todo...
         $this->init();
